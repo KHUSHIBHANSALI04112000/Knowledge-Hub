@@ -1,0 +1,103 @@
+/* Global styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif; /* Make sure this font is loaded in index.html */
+    background-color: #f9f9f9;
+    overflow-x: hidden;
+  }
+  
+  /* Container for the app */
+  .app-container {
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f0f8ff, #e0f7fa);
+    min-height: 100vh;
+  }
+  
+  /* Welcome banner styles with slide and fade animations */
+  .welcome-banner {
+    background: #ffffff;
+    border: 2px solid #007acc;
+    border-radius: 10px;
+    padding: 1.5rem 2rem;
+    max-width: 600px;
+    margin: 2rem auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    animation: slideInDown 0.8s ease-out both;
+  }
+  
+  @keyframes slideInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Heading fades in with a slight delay */
+  .welcome-banner h1 {
+    font-size: 2.2rem;
+    color: #007acc;
+    margin-bottom: 0.5rem;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+    animation-delay: 0.5s;
+  }
+  
+  /* Paragraphs fade in with a longer delay and have a color transition on hover */
+  .welcome-banner p {
+    font-size: 1.2rem;
+    color: #333;
+    margin: 0.5rem 0;
+    transition: color 0.3s ease;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+    animation-delay: 0.7s;
+  }
+  
+  .welcome-banner p:hover {
+    color: #007acc;
+  }
+  
+  /* Fade-in animation definition */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  /* Chat widget container fades in upward after a delay */
+  .chat-widget-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    animation: fadeInUp 1s ease-out 1s both;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Styling for the redirecting message */
+  .redirecting {
+    margin-top: 2rem;
+    font-size: 1.8rem;
+    color: #555;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+  }
+  
+  
