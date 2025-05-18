@@ -133,7 +133,7 @@ Please ensure you have the following installed:
 
 
 1. **Installation:**  
-   - Followed the installation steps for the self hosted app on local from thsi guide
+   - Followed the installation steps for the self hosted app on local from this  guide ([OUTLINE INSTALLATION GUIDE](https://docs.getoutline.com/s/hosting/doc/installation-methods-pSvgz9j0QC))
 
 2. **Sample Data:**  
    - Import or create a sample KB with a few articles.
@@ -141,7 +141,7 @@ Please ensure you have the following installed:
 ### Chatwoot Installation
 
 1. **Deployment:**  
-   - Set up Chatwoot locally using Docker or follow the [Chatwoot installation guide](https://www.chatwoot.com/docs/deployment/overview).
+   - Set up Chatwoot locally using Docker or follow the [Chatwoot installation guide](https://www.chatwoot.com/docs/deployment/overview)
 
 2. **Configuration:**  
    - For creating the webhook and self hosting it ti run locally and integrate with the backend apis we will need ngrok.
