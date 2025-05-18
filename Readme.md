@@ -2,9 +2,9 @@
 CHATWOOT INTEGRATION WITH THE KNOWLEDGE BASE 
 
 - **Keycloak Authentication:** Secure user authentication.
-- **WikiJs Knowledge-Base UI:** A self‑hosted, searchable documentation/knowledge base.
-- **Chatwoot AI Bot:** A live chat integration that listens for `/ask` queries and responds with relevant information from the Wikijs KB.
-- **Bot Workflow:** A backend bot  that intercepts Chatwoot webhook events, queries WikiJSKB based on the content title provided by the user in their request and then the bot posts the relevant content with the link to the document back into Chatwoot UI.
+- **Outline Knowledge-Base UI:** A self‑hosted, searchable documentation/knowledge base.
+- **Chatwoot AI Bot:** A live chat integration that listens for `/ask` queries and responds with relevant information from the Outline KB.
+- **Bot Workflow:** A backend bot  that intercepts Chatwoot webhook events, queries OutlineKB based on the content title provided by the user in their request and then the bot posts the relevant content with the link to the document back into Chatwoot UI.
 
 This README details the setup, configuration, and workflow for local development and demo.
 
@@ -17,7 +17,7 @@ This README details the setup, configuration, and workflow for local development
 - [Prerequisites](#prerequisites)
 - [Installation and Setup](#installation-and-setup)
   - [Keycloak Configuration](#keycloak-configuration)
-  - [Wikijs Knowledge-Base](#outline-knowledge-base)
+  - [Outline Knowledge-Base](#outline-knowledge-base)
   - [Chatwoot Installation](#chatwoot-installation)
   - [Bot Setup](#bot-setup)
   - [React Frontend](#react-frontend)
@@ -34,14 +34,49 @@ This application demonstrates the following workflow:
    - A realm (e.g., `kb-chat-demo`) is created with client:
      - `kb-ui` (public) for the React UI.
      - And then add user and credentials  which you need to use while logging into the  KB app.
+curl http://localhost:4000/api/documents.search \
+  --request POST \
+  --header 'Content-Type: application/json' \
+  --header 'Authorization: Bearer ol_api_O8q6PuZrrKgWq7rpMc7LwqcvDPUE7h0rGfr5p8' \
+  --data '{
+  "offset": 0,
+  "limit": 25,
+  "query": "hi",
+  "userId": "",
+  "collectionId": "",
+  "documentId": "",
+  "statusFilter": "published",
+  "dateFilter": "month"
+}'
+
+curl -X GET http://localhost:4000/api/collections.list \
+  --header "Authorization: Bearer ol_api_c45T4WckMjZdPjKlaGKxL43x4haNtrAKsB0jyk"
+
+
+curl https://app.getoutline.com/api/documents.search \
+  --request POST \
+  --header 'Content-Type: application/json' \
+  --header 'Authorization: Bearer ol_api_O8q6PuZrrKgWq7rpMc7LwqcvDPUE7h0rGfr5p8' \
+  --data '{
+    "offset": 0,
+    "limit": 25,
+    "query": "med",
+    "statusFilter": "published",
+    "dateFilter": "month"
+  }'
+
+  curl -X POST https://app.getoutline.com/api/users.info \
+  --header "Authorization: Bearer ol_api_O8q6PuZrrKgWq7rpMc7LwqcvDPUE7h0rGfr5p8"
+
+
    
 2. **Knowledge Base:**  
-   - WikiJs is all set and running inside the docker app.
+   - Outline is all set and running inside the docker app.
 
 3. **Chat Integration:**  
    - Chatwoot is integrated into the React frontend.
    - Users can type queries starting with `/ask` in the chat widget.
-   - The backend bot listens to Chatwoot incoming webhook events, intercepts `/ask` commands, and queries WikiJs using GraphQL.
+   - The backend bot listens to Chatwoot incoming webhook events, intercepts `/ask` commands, and sends the post request search to the Outline KNOWLEDGE BASE
    - The bot then sends a reply with relevant KB content back to the Chatwoot conversation.
 
 ---
@@ -55,12 +90,12 @@ This application demonstrates the following workflow:
 - **Backend Bot:** A Node.js/Express server that:
   - Receives webhooks from Chatwoot.
   - Processes messages starting with `/ask`.
-  - Queries WikiJs API.
+  - Queries search  API in Outline KB
   - Sends responses via the Chatwoot API.
   
 - **Component Integration:**  
   - **Keycloak** secures access to the KB app .
-  - **WikiJs** provides the KnowledgeBase articles.
+  - **Outline** provides the KnowledgeBase articles.
   - **Chatwoot** serves as the interactive chat interface.
   
 All components are brought together using Docker Compose for streamlined local development.
@@ -94,19 +129,11 @@ Please ensure you have the following installed:
   -e KEYCLOAK_ADMIN_PASSWORD=admin \
   quay.io/keycloak/keycloak:24.0.2 start-dev
 
-### WikiJs Knowledge-Base:
+### Outline Knowledge-Base:
 
 
 1. **Installation:**  
-   - Just run this command and you will see in the docker containers wikijs running and on port 3001.
-
-   docker run -d \
-  --name wikijs \
-  -p 3001:3000 \
-  -v wiki_data:/data \
-  -e DB_TYPE=sqlite \
-  -e DB_STORAGE=/data/wiki.db \
-  requarks/wiki:2
+   - Followed the installation steps for the self hosted app on local from thsi guide
 
 2. **Sample Data:**  
    - Import or create a sample KB with a few articles.
@@ -127,7 +154,7 @@ Please ensure you have the following installed:
    - The bot is implemented as a Node.js/Express server (see `server.js` in the repo).
    - It listens for webhook events from Chatwoot and processes `/ask` commands.
 2. **API Integrations:**  
-   - Configure the bot to use the Outline GraphQL API (set the `WIKIJS_BASE_URL`) and Chatwoot API (set `CHATWOOT_API_URL`, `CHATWOOT_API_TOKEN`, and `CHATWOOT_ACCOUNT_ID`).
+   - Configure the bot to use the Outline GraphQL API (set the ` OUTLINE_BASE_URL` &  OUTLINE_API_KEY) and Chatwoot API (set `CHATWOOT_API_URL`, `CHATWOOT_API_TOKEN`, and `CHATWOOT_ACCOUNT_ID`).
 
 
 ### React Frontend
@@ -149,15 +176,8 @@ Please ensure you have the following installed:
   -e KEYCLOAK_ADMIN_PASSWORD=admin \
   quay.io/keycloak/keycloak:24.0.2 start-dev
 
-2. **Running the cintainer if WikiJs Knowledge base conatiner 
-    docker run -d \
-  --name wikijs \
-  -p 3001:3000 \
-  -v wiki_data:/data \
-  -e DB_TYPE=sqlite \
-  -e DB_STORAGE=/data/wiki.db \
-  requarks/wiki:2
-
+2. ** inside the outlinelnowledgebase folder just give this  below command to make sure the container is up and running  
+      docker-compose up --build
 
 3.Install the chatwoot locally and configure the port accordingly for example 3001 and check the docker container corresponding to the chatwoot and ensure all the containers are up and working .
 
