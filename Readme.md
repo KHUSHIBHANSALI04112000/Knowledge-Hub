@@ -1,5 +1,5 @@
 # Knowledge Hub with Chatwoot Integration
-CHATWOOT INTEGRATION WITH THE KNOWLEDGE BASE 
+CHATWOOT INTEGRATION WITH THE  OUTLINE KNOWLEDGE BASE 
 
 - **Keycloak Authentication:** Secure user authentication.
 - **Outline Knowledge-Base UI:** A self‑hosted, searchable documentation/knowledge base.
